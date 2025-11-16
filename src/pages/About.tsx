@@ -1,7 +1,12 @@
 import { Target, Award, Shield, Users, TrendingUp, Clock } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import Footer from '../components/Footer';
 
-export default function About() {
+interface AboutProps {
+  setActivePage: Dispatch<SetStateAction<string>>;
+}
+
+export default function About({ setActivePage }: AboutProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -59,7 +64,7 @@ export default function About() {
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-            About <span className="text-[#F59E0B]">ProManpower+</span>
+            About <span className="text-[#F59E0B]">Capital Support Services</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
             Building partnerships through reliable service, professional excellence, and unwavering commitment to our clients' success.
@@ -67,7 +72,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="py-20 bg-white">
+      <section className="py-20 section-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
             <div className="animate-fade-in-up">
@@ -123,7 +128,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 section-surface-alt">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -166,11 +171,16 @@ export default function About() {
           <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
             Let's discuss how we can support your next project with our comprehensive manpower, contract management, and equipment rental solutions.
           </p>
-          <button className="bg-[#F59E0B] text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:bg-white hover:text-[#1D4ED8] hover:scale-105 shadow-xl">
+          <button
+            onClick={() => setActivePage('contact')}
+            className="bg-[#F59E0B] text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:bg-white hover:text-[#1D4ED8] hover:scale-105 shadow-xl"
+          >
             Get in Touch
           </button>
         </div>
       </section>
+
+      <Footer setActivePage={setActivePage} />
     </div>
   );
 }

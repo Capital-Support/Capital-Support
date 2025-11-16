@@ -65,4 +65,20 @@
   .scroll-smooth {
     scroll-behavior: smooth;
   }
+
+  /* globals.css or app.css */
+
+  .section-surface {
+    background:
+      radial-gradient(circle at top left, rgba(29, 78, 216, 0.06), transparent 55%),
+      radial-gradient(circle at bottom right, rgba(245, 158, 11, 0.06), transparent 55%),
+      #f9fafb;
+  }
+
+  .section-surface-alt {
+    background:
+      radial-gradient(circle at top right, rgba(15, 23, 42, 0.06), transparent 55%),
+      #ffffff;
+  }
+
 }

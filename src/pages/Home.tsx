@@ -1,7 +1,12 @@
-import { Users, FileText, Truck, ArrowRight, CheckCircle } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Users, FileText, Truck, ArrowRight, CheckCircle, Briefcase } from 'lucide-react';
+import { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import Footer from '../components/Footer';
 
-export default function Home() {
+interface HomeProps {
+  setActivePage: Dispatch<SetStateAction<string>>;
+}
+
+export default function Home({ setActivePage }: HomeProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -12,20 +17,30 @@ export default function Home() {
     {
       icon: <Users size={40} />,
       title: 'Manpower Supply',
-      description: 'Skilled, semi-skilled, and unskilled workers ready to meet your project demands with full legal compliance.',
+      description:
+        'Flexible, compliant workforce solutions from monthly staffing to direct recruitment of qualified manpower.',
       color: 'bg-[#1D4ED8]',
     },
     {
       icon: <FileText size={40} />,
       title: 'Subcontracting & Contract Management',
-      description: 'Professional third-party coordination and comprehensive contract management services for seamless project execution.',
+      description:
+        'Professional third-party coordination and comprehensive contract management services for seamless project execution.',
       color: 'bg-[#F59E0B]',
     },
     {
       icon: <Truck size={40} />,
       title: 'Equipment Rental',
-      description: 'Heavy machinery and equipment rental including cranes, trucks, excavators, and more for all construction needs.',
+      description:
+        'Heavy machinery and equipment rental including cranes, trucks, excavators, and more for all construction needs.',
       color: 'bg-[#1D4ED8]',
+    },
+    {
+      icon: <Briefcase size={40} />,
+      title: 'Management Services',
+      description:
+        'Strategic management support including market research, company formation, contracts, tenders, and business development in Oman.',
+      color: 'bg-[#F59E0B]',
     },
   ];
 
@@ -60,12 +75,18 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="group bg-[#1D4ED8] text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:bg-[#F59E0B] hover:scale-105 shadow-lg hover:shadow-xl flex items-center gap-2">
+            <button
+              onClick={() => setActivePage('contact')}
+              className="group bg-[#1D4ED8] text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:bg-[#F59E0B] hover:scale-105 shadow-lg hover:shadow-xl flex items-center gap-2"
+            >
               Request Manpower
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </button>
 
-            <button className="group bg-transparent text-white px-8 py-4 rounded-lg font-semibold text-lg border-2 border-[#F59E0B] transition-all duration-300 hover:bg-[#F59E0B] hover:scale-105 shadow-lg">
+            <button
+              onClick={() => setActivePage('services')}
+              className="group bg-transparent text-white px-8 py-4 rounded-lg font-semibold text-lg border-2 border-[#F59E0B] transition-all duration-300 hover:bg-[#F59E0B] hover:scale-105 shadow-lg"
+            >
               View Services
             </button>
           </div>
@@ -78,7 +99,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 section-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
             {stats.map((stat, index) => (
@@ -104,7 +125,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
               <div
                 key={index}
@@ -146,7 +167,11 @@ export default function Home() {
                   'Flexible contracts tailored to project requirements',
                   '24/7 support and rapid response times',
                 ].map((item, index) => (
-                  <div key={index} className="flex items-start gap-3 animate-slide-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <div
+                    key={index}
+                    className="flex items-start gap-3 animate-slide-in"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
                     <CheckCircle className="text-[#F59E0B] flex-shrink-0 mt-1" size={20} />
                     <span className="text-gray-300">{item}</span>
                   </div>
@@ -164,6 +189,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <Footer setActivePage={setActivePage} />
     </div>
   );
 }

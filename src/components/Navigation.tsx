@@ -40,8 +40,8 @@ export default function Navigation({ activePage, setActivePage }: NavigationProp
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20">
           <div className="flex items-center cursor-pointer" onClick={() => handleNavClick('home')}>
-            <span className="text-white text-xl md:text-2xl font-bold tracking-tight">
-              Capital Support
+            <span className="text-xl md:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white to-[#F59E0B] bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(245,158,11,0.35)] transition-transform duration-300 hover:scale-105">
+              Capital Support Services
             </span>
           </div>
 
