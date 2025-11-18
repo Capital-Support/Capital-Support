@@ -1,5 +1,6 @@
 import { Mail, Phone, MapPin, Clock, Send, MessageSquare } from 'lucide-react';
 import { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import emailjs from '@emailjs/browser';
 import Footer from '../components/Footer';
 
 interface ContactProps {
@@ -16,13 +17,65 @@ export default function Contact({ setActivePage }: ContactProps) {
     message: '',
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<null | { type: 'success' | 'error'; message: string }>(null);
+
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    setStatus(null);
+
+    if (!formData.name || !formData.email || !formData.phone || !formData.message) {
+      setStatus({
+        type: 'error',
+        message: 'Please fill in all required fields before submitting.',
+      });
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
+      const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
+      const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string;
+
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        company: formData.company || 'N/A',
+        phone: formData.phone,
+        message: formData.message,
+        to_email: 'mhammadhouj@gmail.com',
+      };
+
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
+
+      setStatus({
+        type: 'success',
+        message: 'Thank you! Your message has been sent successfully. We will contact you shortly.',
+      });
+
+      setFormData({
+        name: '',
+        company: '',
+        email: '',
+        phone: '',
+        message: '',
+      });
+    } catch (error) {
+      console.error('Email send error:', error);
+      setStatus({
+        type: 'error',
+        message:
+          'Something went wrong while sending your message. Please try again or contact us directly by phone or email.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -30,6 +83,18 @@ export default function Contact({ setActivePage }: ContactProps) {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const openWhatsApp = () => {
+    const phoneNumber = '96877786668';
+    const defaultMessage = encodeURIComponent(
+      'Hello, I would like to inquire about your manpower, equipment, or management services.'
+    );
+    const url = `https://wa.me/${phoneNumber}?text=${defaultMessage}`;
+
+    if (typeof window !== 'undefined') {
+      window.open(url, '_blank');
+    }
   };
 
   const contactInfo = [
@@ -64,9 +129,11 @@ export default function Contact({ setActivePage }: ContactProps) {
       <section className="relative py-20 bg-gradient-to-br from-[#0B1F3B] to-[#050816]">
         <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/7376/startup-photos.jpg?auto=compress&cs=tinysrgb&w=1920')] bg-cover bg-center opacity-10"></div>
 
-        <div className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center transition-all duration-1000 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}>
+        <div
+          className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center transition-all duration-1000 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
             Get In <span className="text-[#F59E0B]">Touch</span>
           </h1>
@@ -107,6 +174,18 @@ export default function Contact({ setActivePage }: ContactProps) {
                   <MessageSquare className="text-[#1D4ED8]" size={32} />
                   <h2 className="text-3xl font-bold text-gray-900">Send Us a Message</h2>
                 </div>
+
+                {status && (
+                  <div
+                    className={`mb-4 rounded-lg px-4 py-3 text-sm ${
+                      status.type === 'success'
+                        ? 'bg-green-50 text-green-700 border border-green-200'
+                        : 'bg-red-50 text-red-700 border border-red-200'
+                    }`}
+                  >
+                    {status.message}
+                  </div>
+                )}
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div>
@@ -192,10 +271,17 @@ export default function Contact({ setActivePage }: ContactProps) {
 
                   <button
                     type="submit"
-                    className="w-full bg-[#1D4ED8] text-white py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:bg-[#F59E0B] hover:scale-105 shadow-lg flex items-center justify-center gap-2 group"
+                    disabled={isSubmitting}
+                    className={`w-full bg-[#1D4ED8] text-white py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg flex items-center justify-center gap-2 group ${
+                      isSubmitting
+                        ? 'opacity-70 cursor-not-allowed'
+                        : 'hover:bg-[#F59E0B] hover:scale-105'
+                    }`}
                   >
-                    <span>Send Message</span>
-                    <Send size={20} className="group-hover:translate-x-1 transition-transform" />
+                    <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
+                    {!isSubmitting && (
+                      <Send size={20} className="group-hover:translate-x-1 transition-transform" />
+                    )}
                   </button>
                 </form>
               </div>
@@ -225,19 +311,24 @@ export default function Contact({ setActivePage }: ContactProps) {
                 <p className="text-gray-600 mb-6">
                   For quick inquiries and instant responses, reach out to us on WhatsApp.
                 </p>
-                <button className="w-full bg-[#25D366] text-white py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-[#20BA5A] hover:scale-105 flex items-center justify-center gap-2">
+                <button
+                  onClick={openWhatsApp}
+                  className="w-full bg-[#25D366] text-white py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-[#20BA5A] hover:scale-105 flex items-center justify-center gap-2"
+                >
                   <MessageSquare size={20} />
                   <span>Chat on WhatsApp</span>
                 </button>
               </div>
 
               <div className="bg-gray-100 rounded-xl p-2 h-64">
-                <div className="w-full h-full bg-gray-300 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="mx-auto mb-2 text-gray-500" size={40} />
-                    <p className="text-gray-600 font-semibold">Map Location</p>
-                    <p className="text-sm text-gray-500">Embed your Google Maps here</p>
-                  </div>
+                <div className="w-full h-full rounded-lg overflow-hidden">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.3498356504842!2d58.39851197478618!3d23.555875896217515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e91fe43c18236e9%3A0xa8148420694316a!2s564%20Bawshar%20St%2C%20Muscat%2C%20Oman!5e0!3m2!1sen!2slb!4v1763405125546!5m2!1sen!2slb"
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="w-full h-full border-0"
+                  ></iframe>
                 </div>
               </div>
             </div>
