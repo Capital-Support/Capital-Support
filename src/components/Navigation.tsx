@@ -39,7 +39,12 @@ export default function Navigation({ activePage, setActivePage }: NavigationProp
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20">
-          <div className="flex items-center cursor-pointer" onClick={() => handleNavClick('home')}>
+          <div className="flex items-center gap-4 cursor-pointer" onClick={() => handleNavClick('home')}>
+            <img
+              src="/logo.png"
+              alt="Capital Support Services Logo"
+              className="h-12 md:h-14 w-auto"
+            />
             <span className="text-xl md:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white to-[#F59E0B] bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(245,158,11,0.35)] transition-transform duration-300 hover:scale-105">
               Capital Support Services
             </span>
