@@ -1,6 +1,8 @@
 import { Users, FileText, Truck, ArrowRight, CheckCircle, Briefcase } from 'lucide-react';
 import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import Footer from '../components/Footer';
+import CountUp from '../components/CountUp';
+
 
 interface HomeProps {
   setActivePage: Dispatch<SetStateAction<string>>;
@@ -45,11 +47,12 @@ export default function Home({ setActivePage }: HomeProps) {
   ];
 
   const stats = [
-    { value: '500+', label: 'Active Workers' },
-    { value: '150+', label: 'Projects Completed' },
-    { value: '50+', label: 'Equipment Fleet' },
-    { value: '99%', label: 'Client Satisfaction' },
+    { value: 500, suffix: '+', label: 'Active Workers' },
+    { value: 150, suffix: '+', label: 'Projects Completed' },
+    { value: 50, suffix: '+', label: 'Equipment Fleet' },
+    { value: 99, suffix: '%', label: 'Client Satisfaction' }
   ];
+
 
   return (
     <div className="pt-16 md:pt-20">
@@ -109,7 +112,12 @@ export default function Home({ setActivePage }: HomeProps) {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="text-4xl md:text-5xl font-bold text-[#1D4ED8] mb-2">
-                  {stat.value}
+                  <CountUp 
+                    to={stat.value}
+                    duration={1}
+                    delay={index * 0.1}
+                    separator=',' />
+                  {stat.suffix}
                 </div>
                 <div className="text-sm md:text-base text-gray-600">{stat.label}</div>
               </div>

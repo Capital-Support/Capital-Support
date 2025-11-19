@@ -45,9 +45,20 @@ export default function Navigation({ activePage, setActivePage }: NavigationProp
               alt="Capital Support Services Logo"
               className="h-12 md:h-14 w-auto"
             />
-            <span className="text-xl md:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white to-[#F59E0B] bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(245,158,11,0.35)] transition-transform duration-300 hover:scale-105">
+            <span
+              className="
+                text-xl md:text-2xl font-extrabold tracking-tight
+                bg-gradient-to-r from-white via-[#F59E0B] to-white
+                bg-clip-text text-transparent
+                bg-[length:200%_200%]
+                animate-gradient-x
+                drop-shadow-[0_0_12px_rgba(245,158,11,0.35)]
+                transition-transform duration-300 hover:scale-105
+              "
+            >
               Capital Support Services
             </span>
+
           </div>
 
           <div className="hidden md:flex space-x-8">

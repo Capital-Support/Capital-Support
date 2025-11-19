@@ -49,7 +49,7 @@ export default function Contact({ setActivePage }: ContactProps) {
         company: formData.company || 'N/A',
         phone: formData.phone,
         message: formData.message,
-        to_email: 'mhammadhouj@gmail.com',
+        to_email: 'mhammadhouj@gmail.com, mady@capitaloman.com',
       };
 
       await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
