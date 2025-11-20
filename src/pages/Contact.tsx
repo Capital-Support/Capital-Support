@@ -49,7 +49,7 @@ export default function Contact({ setActivePage }: ContactProps) {
         company: formData.company || 'N/A',
         phone: formData.phone,
         message: formData.message,
-        to_email: 'mhammadhouj@gmail.com, mady@capitaloman.com',
+        to_email: 'mhammadhouj@gmail.com',
       };
 
       await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
@@ -119,7 +119,7 @@ export default function Contact({ setActivePage }: ContactProps) {
     {
       icon: <Clock size={28} />,
       title: 'Business Hours',
-      details: ['Monday - Friday: 8:00 AM - 6:00 PM', 'Saturday: 9:00 AM - 2:00 PM'],
+      details: ['Sunday - Thursday: 8:00 AM - 4:00 PM'],
       color: 'bg-[#F59E0B]',
     },
   ];
