@@ -51,7 +51,9 @@ export default function Contact({ setActivePage }: ContactProps) {
         message: formData.message,
       };
 
-      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, {
+        publicKey: PUBLIC_KEY,
+      });
 
       setStatus({
         type: 'success',
